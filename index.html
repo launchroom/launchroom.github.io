@@ -26,6 +26,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 60vh;
 }
 
@@ -140,13 +141,12 @@ body {
         </style>
     </head>
     <body class="home">
-        <div class="title heading">LaunchRoom</div>
-        <div class="subtitle heading">
-            <span>Contribution to</span>
-            <span id="creatorName">...</span>
-        </div>
         <div class="container">
-           
+            <div class="title heading">LaunchRoom</div>
+            <div class="subtitle heading">
+                <span>Contribution to</span>
+                <span id="creatorName">...</span>
+            </div>
             <div class="radio-tile-group" id="tiles">
               <div class="input-container">
                 <input id="fuel" class="radio-button" type="radio" name="radio" value="10"/>
