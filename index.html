@@ -253,6 +253,11 @@ body {
             orderDescription = 'Item';
           }
           paypal.Buttons({
+            env: 'sandbox',
+    client: {
+      sandbox: paypal.sandbox_id,
+      production: paypal.client_id
+    },
             style: {
       shape: 'rect',
       color: 'black',
