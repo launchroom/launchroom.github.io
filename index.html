@@ -252,7 +252,7 @@ body {
                 window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
                   // get result from Flutter side. It will be the number 64.
                   console.log(result);
-                  document.querySelector('#creatorName').innerText = 'test '+result;
+                  document.querySelector('#creatorName').innerHTML = 'test '+result;
                   var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
                   
                   document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
