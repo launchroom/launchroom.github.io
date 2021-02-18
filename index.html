@@ -240,6 +240,27 @@ body {
           </div>
           <script src="https://www.paypal.com/sdk/js?client-id=AXOUzbVs9Nxv8Qz3vF7fwrcByka_Hr67yHXQblPm7Xm40euXecB7UtfwzRpbm0_Z-Zn1je7FhQkBzujR&currency=USD" data-sdk-integration-source="button-factory"></script>
           <script>
+            // In order to call window.flutter_inappwebview.callHandler(handlerName <String>, ...args) 
+            // properly, you need to wait and listen the JavaScript event flutterInAppWebViewPlatformReady. 
+            // This event will be dispatched as soon as the platform (Android or iOS) is ready to handle the callHandler method. 
+            function loadCreator() {
+              window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+                // call flutter handler with name 'mySum' and pass one or more arguments
+                    var creatorName = document.querySelector('#creatorName');
+
+  
+                window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
+                  // get result from Flutter side. It will be the number 64.
+
+                  var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
+                  console.log(result);
+                  document.querySelector('#creatorName').innerText = 'test '+result;
+                  document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
+                });
+              });
+            }
+         </script>
+          <script>
             function initPayPalButton() {
               var shipping = 0;
               var itemOptions = document.querySelector("#smart-button-container #item-options");
@@ -344,26 +365,6 @@ body {
         initPayPalButton();
         loadCreator();
           </script>
-          <script>
-            // In order to call window.flutter_inappwebview.callHandler(handlerName <String>, ...args) 
-            // properly, you need to wait and listen the JavaScript event flutterInAppWebViewPlatformReady. 
-            // This event will be dispatched as soon as the platform (Android or iOS) is ready to handle the callHandler method. 
-            function loadCreator() {
-              window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-                // call flutter handler with name 'mySum' and pass one or more arguments
-                    var creatorName = document.querySelector('#creatorName');
-
-  
-                window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
-                  // get result from Flutter side. It will be the number 64.
-
-                  var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
-                  console.log(result);
-                  document.querySelector('#creatorName').innerText = 'test '+result;
-                  document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
-                });
-              });
-            }
-         </script>
+         
     </body>
 </html>
