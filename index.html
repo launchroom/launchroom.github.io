@@ -319,16 +319,17 @@ body {
               });
             },
             onApprove: function(data, actions) {
-              window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-                var obj = {
-                    // 'payer': details.payer.name.given_name,
-                    'amount': selectedValue
-                }
+              // window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+              //   var obj = {
+              //       // 'payer': details.payer.name.given_name,
+              //       'amount': selectedValue
+              //   }
+              var selectedValue = document.querySelector('input[name="radio"]:checked').value;
                 window.flutter_inappwebview.callHandler('contributionMade', selectedValue).then(function(result) {
                 // get result from Flutter side. It will be the number 64.
                     console.log(result);
-                })
-              });
+                });
+              // });
                 
               return actions.order.capture().then(function(details) {
                 var selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
@@ -349,6 +350,7 @@ body {
             window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
               // call flutter handler with name 'mySum' and pass one or more arguments
                   var creatorName = document.querySelector('#creatorName');
+                  var selectedValue = document.querySelector('input[name="radio"]:checked').value;
 
  
               window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
