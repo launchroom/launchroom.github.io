@@ -350,13 +350,12 @@ body {
             window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
               // call flutter handler with name 'mySum' and pass one or more arguments
                   var creatorName = document.querySelector('#creatorName');
-                  var selectedValue = document.querySelector('input[name="radio"]:checked').value;
 
  
               window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
                 // get result from Flutter side. It will be the number 64.
 
-                var selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
+                var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
                 console.log(result);
                 document.querySelector('#creatorName').innerText = result;
                 document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
