@@ -251,10 +251,10 @@ body {
   
                 window.flutter_inappwebview.callHandler('mySum', creatorName.innerText).then(function(result) {
                   // get result from Flutter side. It will be the number 64.
-
-                  var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
                   console.log(result);
                   document.querySelector('#creatorName').innerText = 'test '+result;
+                  var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
+                  
                   document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
                 });
               });
@@ -264,106 +264,106 @@ body {
             function initPayPalButton() {
               var shipping = 0;
               var itemOptions = document.querySelector("#smart-button-container #item-options");
-          var quantity = parseInt();
-          var quantitySelect = document.querySelector("#smart-button-container #quantitySelect");
-          if (!isNaN(quantity)) {
-            quantitySelect.style.visibility = "visible";
-          }
-          var orderDescription = '';
-          if(orderDescription === '') {
-            orderDescription = 'Item';
-          }
-          paypal.Buttons({
-            env: 'sandbox',
-    client: {
-      sandbox: 'AXOUzbVs9Nxv8Qz3vF7fwrcByka_Hr67yHXQblPm7Xm40euXecB7UtfwzRpbm0_Z-Zn1je7FhQkBzujR',
-      production: paypal.client_id
-    },
-            style: {
-      shape: 'rect',
-      color: 'black',
-      layout: 'vertical',
-      label: 'paypal',
-      
-    },
-            createOrder: function(data, actions) {
+              var quantity = parseInt();
+              var quantitySelect = document.querySelector("#smart-button-container #quantitySelect");
+              if (!isNaN(quantity)) {
+                quantitySelect.style.visibility = "visible";
+              }
+              var orderDescription = '';
+              if(orderDescription === '') {
+                orderDescription = 'Item';
+              }
+              paypal.Buttons({
+                env: 'sandbox',
+                client: {
+                  sandbox: 'AXOUzbVs9Nxv8Qz3vF7fwrcByka_Hr67yHXQblPm7Xm40euXecB7UtfwzRpbm0_Z-Zn1je7FhQkBzujR',
+                  production: paypal.client_id
+                },
+                        style: {
+                  shape: 'rect',
+                  color: 'black',
+                  layout: 'vertical',
+                  label: 'paypal',
+                  
+                },
+              createOrder: function(data, actions) {
+                  var selectedValue = document.querySelector('input[name="radio"]:checked').value;
+                  selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
+                  console.log(selectedValue);
+
+                var selectedItemDescription = document.querySelector('input[name="radio"]:checked').value + 'contribution on LaunchRoom';
+                //itemOptions.options[itemOptions.selectedIndex].value;
+                var selectedItemPrice = parseFloat(selectedValue);
+                var tax = (0 === 0) ? 0 : (selectedItemPrice * (parseFloat(0)/100));
+                if(quantitySelect.options.length > 0) {
+                  quantity = parseInt(quantitySelect.options[quantitySelect.selectedIndex].value);
+                } else {
+                  quantity = 1;
+                }
+        
+                tax *= quantity;
+                tax = Math.round(tax * 100) / 100;
+                var priceTotal = quantity * selectedItemPrice + parseFloat(shipping) + tax;
+                priceTotal = Math.round(priceTotal * 100) / 100;
+                var itemTotalValue = Math.round((selectedItemPrice * quantity) * 100) / 100;
+        
+                return actions.order.create({
+                  purchase_units: [{
+                    description: orderDescription,
+                    amount: {
+                      currency_code: 'USD',
+                      value: priceTotal,
+                      breakdown: {
+                        item_total: {
+                          currency_code: 'USD',
+                          value: itemTotalValue,
+                        },
+                        shipping: {
+                          currency_code: 'USD',
+                          value: shipping,
+                        },
+                        tax_total: {
+                          currency_code: 'USD',
+                          value: tax,
+                        }
+                      }
+                    },
+                    items: [{
+                      name: selectedItemDescription,
+                      unit_amount: {
+                        currency_code: 'USD',
+                        value: selectedItemPrice,
+                      },
+                      quantity: quantity
+                    }]
+                  }]
+                });
+              },
+              onApprove: function(data, actions) {
+                // window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
+                //   var obj = {
+                //       // 'payer': details.payer.name.given_name,
+                //       'amount': selectedValue
+                //   }
                 var selectedValue = document.querySelector('input[name="radio"]:checked').value;
                 selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
-                console.log(selectedValue);
-
-              var selectedItemDescription = document.querySelector('input[name="radio"]:checked').value + 'contribution on LaunchRoom';
-              //itemOptions.options[itemOptions.selectedIndex].value;
-              var selectedItemPrice = parseFloat(selectedValue);
-              var tax = (0 === 0) ? 0 : (selectedItemPrice * (parseFloat(0)/100));
-              if(quantitySelect.options.length > 0) {
-                quantity = parseInt(quantitySelect.options[quantitySelect.selectedIndex].value);
-              } else {
-                quantity = 1;
-              }
-      
-              tax *= quantity;
-              tax = Math.round(tax * 100) / 100;
-              var priceTotal = quantity * selectedItemPrice + parseFloat(shipping) + tax;
-              priceTotal = Math.round(priceTotal * 100) / 100;
-              var itemTotalValue = Math.round((selectedItemPrice * quantity) * 100) / 100;
-      
-              return actions.order.create({
-                purchase_units: [{
-                  description: orderDescription,
-                  amount: {
-                    currency_code: 'USD',
-                    value: priceTotal,
-                    breakdown: {
-                      item_total: {
-                        currency_code: 'USD',
-                        value: itemTotalValue,
-                      },
-                      shipping: {
-                        currency_code: 'USD',
-                        value: shipping,
-                      },
-                      tax_total: {
-                        currency_code: 'USD',
-                        value: tax,
-                      }
-                    }
-                  },
-                  items: [{
-                    name: selectedItemDescription,
-                    unit_amount: {
-                      currency_code: 'USD',
-                      value: selectedItemPrice,
-                    },
-                    quantity: quantity
-                  }]
-                }]
-              });
-            },
-            onApprove: function(data, actions) {
-              // window.addEventListener("flutterInAppWebViewPlatformReady", function(event) {
-              //   var obj = {
-              //       // 'payer': details.payer.name.given_name,
-              //       'amount': selectedValue
-              //   }
-              var selectedValue = document.querySelector('input[name="radio"]:checked').value;
-              selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
-                window.flutter_inappwebview.callHandler('contributionMade', selectedValue).then(function(result) {
-                // get result from Flutter side. It will be the number 64.
-                    console.log(result);
+                  window.flutter_inappwebview.callHandler('contributionMade', selectedValue).then(function(result) {
+                  // get result from Flutter side. It will be the number 64.
+                      console.log(result);
+                  });
+                // });
+                  
+                return actions.order.capture().then(function(details) {
+                  alert('Transaction completed by ' + details.payer.name.given_name + '!');
                 });
-              // });
-                
-              return actions.order.capture().then(function(details) {
-                alert('Transaction completed by ' + details.payer.name.given_name + '!');
-              });
-            },
-            onError: function(err) {
-              console.log(err);
-            },
-          }).render('#paypal-button-container');
-        }
-        initPayPalButton();
-        loadCreator();
+              },
+              onError: function(err) {
+                console.log(err);
+              },
+            }).render('#paypal-button-container');
+          }
+            initPayPalButton();
+            loadCreator();
           </script>
          
     </body>
