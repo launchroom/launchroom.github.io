@@ -325,6 +325,7 @@ body {
               //       'amount': selectedValue
               //   }
               var selectedValue = document.querySelector('input[name="radio"]:checked').value;
+              selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
                 window.flutter_inappwebview.callHandler('contributionMade', selectedValue).then(function(result) {
                 // get result from Flutter side. It will be the number 64.
                     console.log(result);
@@ -332,7 +333,6 @@ body {
               // });
                 
               return actions.order.capture().then(function(details) {
-                var selectedValue = selectedValue === 'custom' ? document.querySelector('#customAmount').value : selectedValue;
                 alert('Transaction completed by ' + details.payer.name.given_name + '!');
               });
             },
