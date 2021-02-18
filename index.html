@@ -324,7 +324,7 @@ body {
                     // 'payer': details.payer.name.given_name,
                     'amount': selectedValue
                 }
-                window.flutter_inappwebview.callHandler('contributionMade', obj).then(function(result) {
+                window.flutter_inappwebview.callHandler('contributionMade', selectedValue).then(function(result) {
                 // get result from Flutter side. It will be the number 64.
                     console.log(result);
                 })
