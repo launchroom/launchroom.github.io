@@ -357,7 +357,7 @@ body {
 
                 var selectedValue = document.querySelector('input[name="radio"]:checked').value === 'custom' ? document.querySelector('#customAmount').value : document.querySelector('input[name="radio"]:checked').value;
                 console.log(result);
-                document.querySelector('#creatorName').innerText = result;
+                document.querySelector('#creatorName').innerText = 'test '+result;
                 document.querySelector('#launchRoomDescription').innerHTML = "LaunchRoom contribution of "+selectedValue+ " to "+result;
               });
             });
